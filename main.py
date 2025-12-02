@@ -1,23 +1,24 @@
-import os
-from flask import Flask, jsonify
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route("/", methods=["GET"])
-def index():
-    return "shouxin backend running"
+origins = [
+    "https://weiwei0915x.neocities.org",
+]
 
-@app.route("/ping", methods=["GET"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+def root():
+    return {"message": "shouxin backend is running"}
+
+@app.get("/ping")
 def ping():
-    return jsonify({"status": "ok"})
-
-@app.errorhandler(Exception)
-def handle_error(e):
-    return jsonify({"error": str(e)}), 500
-
-if __name__ == "__main__":
-    try:
-        port = int(os.environ.get("PORT", 5000))
-    except:
-        port = 5000
-    app.run(host="0.0.0.0", port=port)
+    return {"status": "ok"}
