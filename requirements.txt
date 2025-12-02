@@ -1,4 +1,4 @@
 Flask==3.0.2
-fastapi
+fastapi==0.110.0
 gunicorn
 uvicorn
